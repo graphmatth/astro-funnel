@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/common/Button';
+import { useAstrologyData } from '@/context/AstrologyContext';
 
 const INTEREST_AREAS = [
   { id: 'love', label: 'Love & Relationships' },
@@ -12,10 +13,12 @@ const INTEREST_AREAS = [
   { id: 'family', label: 'Family & Home' },
 ];
 
-export default function OnboardingForm2({ initialData, onSubmit }) {
+export const OnboardingForm2 = () => {
+  const { userData, updateUserData, currentStep, setUserData } = useAstrologyData();
+
   const [formData, setFormData] = useState({
-    birthTime: initialData.birthTime || '',
-    interestArea: initialData.interestArea || '',
+    birthTime: userData.birthTime || '',
+    interestArea: userData.interestArea || '',
   });
   
   const [errors, setErrors] = useState({});
@@ -44,11 +47,19 @@ export default function OnboardingForm2({ initialData, onSubmit }) {
     e.preventDefault();
     
     if (validateForm()) {
-      onSubmit(formData);
+        updateUserData({ ...formData, currentStep: 3 });
     }
   };
 
   return (
+    <>
+    <Button
+      type='button'
+      variant="outline"
+      className="my-2"
+      onClick={() => updateUserData({ ...userData, currentStep: 1 })}>
+        Back
+    </Button>
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
         <label className="block text-sm font-medium mb-1">
@@ -97,5 +108,6 @@ export default function OnboardingForm2({ initialData, onSubmit }) {
         View Your Cosmic Insights
       </Button>
     </form>
+    </>
   );
 }

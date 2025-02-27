@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 
 import { createContext, useContext, useState } from 'react';
 
@@ -6,6 +7,7 @@ const AstrologyContext = createContext(undefined);
 
 export function AstrologyProvider({ children }) {
   const [userData, setUserData] = useState({
+    currentStep: 1,
     birthDate: '',
     birthLocation: '',
     
@@ -24,6 +26,11 @@ export function AstrologyProvider({ children }) {
     });
   };
 
+
+  React.useEffect(() => {
+    setUserData(userData)
+  }, [])
+
   const getCurrentStep = (data) => {
     if (!data.birthDate || !data.birthLocation) return 1;
     if (!data.birthTime || !data.interestArea) return 2;
@@ -35,7 +42,7 @@ export function AstrologyProvider({ children }) {
     <AstrologyContext.Provider value={{ 
       userData, 
       updateUserData,
-      currentStep: getCurrentStep(userData)
+      currentStep: userData.currentStep
     }}>
       {children}
     </AstrologyContext.Provider>

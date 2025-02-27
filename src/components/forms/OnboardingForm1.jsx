@@ -1,14 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import React from 'react';
+import { useState, useEffect } from 'react';
 import DatePicker from '@/components/common/DatePicker';
 import LocationInput from '@/components/common/LocationInput';
 import { Button } from '@/components/common/Button';
+import { useAstrologyData } from '@/context/AstrologyContext';
 
-export default function OnboardingForm1({ initialData, onSubmit }) {
+export const OnboardingForm1 = () => {
+  const { userData, updateUserData } = useAstrologyData();
+
   const [formData, setFormData] = useState({
-    birthDate: initialData.birthDate || '',
-    birthLocation: initialData.birthLocation || '',
+    birthDate: userData.birthDate || '',
+    birthLocation: userData.birthLocation || '',
   });
   
   const [errors, setErrors] = useState({});
@@ -36,11 +40,15 @@ export default function OnboardingForm1({ initialData, onSubmit }) {
     return Object.keys(newErrors).length === 0;
   };
 
+  
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    console.log("formata ", formData)
     
     if (validateForm()) {
-      onSubmit(formData);
+      // onSubmit(formData);
+        updateUserData({ ...formData, currentStep: 2 });
     }
   };
 

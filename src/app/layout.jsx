@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AstrologyProvider } from "@/context/AstrologyContext";
+import AstroLayout from "./AstroLayout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
