@@ -6,19 +6,20 @@ import { useState } from 'react';
 import { useAstrologyData } from '@/context/AstrologyContext';
 import { getAstrologyPreview } from '@/lib/astrology';
 import InsightPreview from '@/components/insights/InsightPreview';
-import { Button } from '../common/Button';
-import { logEvent } from '@/lib/amplitude';
+
 
 export const OnboardingForm3 = () => {
-    const { userData, updateUserData } = useAstrologyData();
+    const { userData } = useAstrologyData();
     const [insights, setInsights] = useState(null);
     const [loading, setLoading] = useState(true);
     const [variant, setVariant] = useState(null);
 
 
-    React.useEffect(() => {
+
+    useEffect(() => {
       const assignedVariant = Math.random() < 0.5 ? 'A' : 'B';
       setVariant(assignedVariant);
+
 
       logEvent('AB_TEST_VARIANT', { variant: assignedVariant });
     }, []);
@@ -43,50 +44,48 @@ export const OnboardingForm3 = () => {
           }
         };  
         fetchInsights();
-    }, []);
-
-
-
-    if (loading) {
-        return "Chargement..."
-    } 
+    }, [userData]);
     
-
+    
     return (
         <>
-            <Button
-                type='button'
-                variant="outline"
-                className="mb-3"
-                onClick={() => updateUserData({ ...userData, currentStep: 2 })}>
-                    Back
-            </Button>
             <h1 className="text-2xl font-bold text-center mb-6">
                 Your Cosmic Insights
             </h1>
-
-            <div>
-
+                
             {insights && (
                 <InsightPreview 
                 insights={insights}
                 interestArea={userData.interestArea}
                 />
             )}
-                <form action="/api/checkout_sessions" method="POST" className='-mt-15 z-10 text-center relative'>
-                    <input type="hidden" name="userData" value={JSON.stringify(userData)} />
+            
+            <div className="bg-gradient-to-b from-transparent to-white pt-12 pb-4 relative">
+                <div className="text-center">
+                <h2 className="text-xl font-semibold mb-3">
+                    Unlock Your Complete Cosmic Analysis
+                </h2>
+                <p className="mb-6 text-gray-600">
+                    Access your full personalized report with detailed insights and guidance.
+                </p>
+
+                <form action="/api/checkout_sessions" method="POST">
                     <section>
+                    <button className='bg-purple-700 text-white rounded-xl p-3'>
+                        Checkout
+                    </button>
                     {variant === 'A' ? (
                       <button className="bg-purple-700 text-white rounded-xl p-3"  type="submit">
                         Unlock Insights for $30.00
                       </button>
                     ) : (
-                      <button className="bg-green-500 text-white p-4" type="submit">
+                      <button className="bg-green-500 text-white p-4">
                         Get Your Full Report Now!
                       </button>
                     )}
                     </section>
                 </form>
+                </div>
             </div>
         </>
     )

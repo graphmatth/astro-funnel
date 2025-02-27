@@ -1,9 +1,9 @@
 // components/forms/OnboardingForm2.jsx
 'use client';
-
 import { useState } from 'react';
 import { Button } from '@/components/common/Button';
 import { useAstrologyData } from '@/context/AstrologyContext';
+import { logEvent } from '@/lib/amplitude';
 
 const INTEREST_AREAS = [
   { id: 'love', label: 'Love & Relationships' },
@@ -45,6 +45,10 @@ export const OnboardingForm2 = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    logEvent('Onboarding Step 1 Completed', {
+      birthTime: formData.birtTime,
+    });
     
     if (validateForm()) {
         updateUserData({ ...formData, currentStep: 3 });

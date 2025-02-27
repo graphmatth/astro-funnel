@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import LocationInput from '@/components/common/LocationInput';
 import { Button } from '@/components/common/Button';
 import { useAstrologyData } from '@/context/AstrologyContext';
+import { logEvent } from '@/lib/amplitude';
 
 export const OnboardingForm1 = () => {
   const { userData, updateUserData } = useAstrologyData();
@@ -40,6 +41,12 @@ export const OnboardingForm1 = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    logEvent('Onboarding Step 1 Completed', {
+      birthDate: formData.birthDate,
+      birthLocation: formData.birthLocation,
+    });
+    
     
     if (validateForm()) {
         updateUserData({ ...formData, currentStep: 2 });
