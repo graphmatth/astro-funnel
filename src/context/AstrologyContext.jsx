@@ -31,12 +31,6 @@ export function AstrologyProvider({ children }) {
     setUserData(userData)
   }, [])
 
-  const getCurrentStep = (data) => {
-    if (!data.birthDate || !data.birthLocation) return 1;
-    if (!data.birthTime || !data.interestArea) return 2;
-    return 3;
-  };
-
 
   return (
     <AstrologyContext.Provider value={{ 

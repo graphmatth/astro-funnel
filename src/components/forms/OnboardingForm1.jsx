@@ -17,10 +17,6 @@ export const OnboardingForm1 = () => {
   
   const [errors, setErrors] = useState({});
 
-  const handleDateChange = (date) => {
-    setFormData(prev => ({ ...prev, birthDate: date }));
-  };
-
   const handleLocationChange = (location) => {
     setFormData(prev => ({ ...prev, birthLocation: location }));
   };
@@ -40,17 +36,21 @@ export const OnboardingForm1 = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleDateChange = (e) => {
+    setFormData(prev => ({ ...prev, birthDate: e.target.value }));
+  };
   
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log("formata ", formData)
     
     if (validateForm()) {
-      // onSubmit(formData);
         updateUserData({ ...formData, currentStep: 2 });
     }
   };
+
+
+    const today = new Date();
+    const maxDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -58,10 +58,12 @@ export const OnboardingForm1 = () => {
         <label className="block text-sm font-medium mb-1">
           When were you born?
         </label>
-        <DatePicker
+        <input
+          type="date"
           value={formData.birthDate}
           onChange={handleDateChange}
-          error={errors.birthDate}
+          max={maxDate}
+          className="w-full p-2 border rounded-md"
         />
         {errors.birthDate && (
           <p className="text-red-500 text-sm mt-1">{errors.birthDate}</p>
