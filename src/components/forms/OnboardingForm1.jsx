@@ -1,8 +1,6 @@
 'use client';
 
-import React from 'react';
-import { useState, useEffect } from 'react';
-import DatePicker from '@/components/common/DatePicker';
+import React, { useState } from 'react';
 import LocationInput from '@/components/common/LocationInput';
 import { Button } from '@/components/common/Button';
 import { useAstrologyData } from '@/context/AstrologyContext';
@@ -16,6 +14,10 @@ export const OnboardingForm1 = () => {
   });
   
   const [errors, setErrors] = useState({});
+
+  const handleDateChange = (e) => {
+    setFormData(prev => ({ ...prev, birthDate: e.target.value }));
+  };
 
   const handleLocationChange = (location) => {
     setFormData(prev => ({ ...prev, birthLocation: location }));
@@ -36,10 +38,6 @@ export const OnboardingForm1 = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleDateChange = (e) => {
-    setFormData(prev => ({ ...prev, birthDate: e.target.value }));
-  };
-  
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -49,8 +47,7 @@ export const OnboardingForm1 = () => {
   };
 
 
-    const today = new Date();
-    const maxDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  const today = new Date().toISOString().split('T')[0];
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -62,7 +59,7 @@ export const OnboardingForm1 = () => {
           type="date"
           value={formData.birthDate}
           onChange={handleDateChange}
-          max={maxDate}
+          max={today}
           className="w-full p-2 border rounded-md"
         />
         {errors.birthDate && (
@@ -71,7 +68,7 @@ export const OnboardingForm1 = () => {
       </div>
       
       <div>
-        <label className="block text-sm font-medium">
+        <label className="block text-sm font-medium mb-1">
           Where were you born?
         </label>
         <LocationInput
@@ -86,7 +83,7 @@ export const OnboardingForm1 = () => {
       
       <Button
         type="submit"
-        className="mt-8"s
+        className="mt-8"
       >
         Continue to Next Step
       </Button>

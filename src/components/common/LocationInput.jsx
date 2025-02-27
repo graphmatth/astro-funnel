@@ -87,14 +87,13 @@ const LocationInput = ({ value, onChange, error }) => {
       <input
         ref={inputRef}
         type="text"
-        className={`w-full p-2 border rounded ${error ? 'border-red-500' : 'border-gray-300'}`}
+        className={`w-full p-2 border rounded `}
         placeholder="Enter a location..."
         value={query}
         onChange={handleInputChange}
         onFocus={handleFocus}
       />
-      
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+    
       
       {isFocused && (suggestions.length > 0 || isLoading) && (
         <div 
