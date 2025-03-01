@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { motion } from "motion/react"
+import { motion } from 'motion/react';
 // import StepOne from "@/components/onboarding/StepOne";
 import { OnboardingForm1 as StepOne } from '@/components/forms/OnboardingForm1';
 import { OnboardingForm2 as StepTwo } from '@/components/forms/OnboardingForm2';
-import { OnboardingForm3  as StepThree} from '@/components/forms/OnboardingForm3';
+import { OnboardingForm3 as StepThree } from '@/components/forms/OnboardingForm3';
 import { useAstrologyData } from '@/context/AstrologyContext';
 
 export default function AstroLayout({ children }) {
@@ -13,23 +13,23 @@ export default function AstroLayout({ children }) {
   const steps = [
     {
       component: StepOne,
-      title: "Basic Information",
+      title: 'Basic Information',
       description: "Let's start with your birth details",
     },
     {
       component: StepTwo,
-      title: "Additional Details",
-      description: "Tell us more about yourself",
+      title: 'Additional Details',
+      description: 'Tell us more about yourself',
     },
     {
       component: StepThree,
-      title: "Your Cosmic Insights",
-      description: "Discover your personalized horoscope",
+      title: 'Your Cosmic Insights',
+      description: 'Discover your personalized horoscope',
     },
     {
       component: <></>,
-      title: "Your Cosmic Insights",
-      description: "Discover your personalized horoscope",
+      title: 'Your Cosmic Insights',
+      description: 'Discover your personalized horoscope',
     },
   ];
 
@@ -38,26 +38,27 @@ export default function AstroLayout({ children }) {
 
   return (
     <div className="min-h-dvh bg-gradient-to-b">
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="mx-auto max-w-4xl px-4 py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          className="mb-8 text-center"
         >
-          <h1 className="text-4xl font-bold text-primary mb-2">
-            {steps[currentStep - 1].title}
-          </h1>
-          <p className="text-muted-foreground">
-            {steps[currentStep - 1].description}
-          </p>
+          <h1 className="text-primary mb-2 text-4xl font-bold">{steps[currentStep - 1].title}</h1>
+          <p className="text-muted-foreground">{steps[currentStep - 1].description}</p>
         </motion.div>
 
         <div className="mb-8">
-          <div className="h-1  bg-purple-300 rounded-full overflow-hidden w-full">
-            <div className="h-1 rounded-full" style={{ width: `${Math.round(progress)}%`, backgroundColor: "#905AFF"}} />
-        </div>
-          <div className="flex justify-between mt-2 text-sm text-muted-foreground">
-            <span>Step {currentStep} of {steps.length}</span>
+          <div className="h-1 w-full overflow-hidden rounded-full bg-purple-300">
+            <div
+              className="h-1 rounded-full"
+              style={{ width: `${Math.round(progress)}%`, backgroundColor: '#905AFF' }}
+            />
+          </div>
+          <div className="text-muted-foreground mt-2 flex justify-between text-sm">
+            <span>
+              Step {currentStep} of {steps.length}
+            </span>
             <span>{Math.round(progress)}% Complete</span>
           </div>
         </div>
