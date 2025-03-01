@@ -2,13 +2,12 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { isIOS } from "react-device-detect";
-import { initAmplitude, logEvent } from '@/lib/amplitude';
+import { logEvent } from '@/lib/amplitude';
 
 
 export default function Home() {
 
   useEffect(() => {
-    initAmplitude();
     logEvent('PAGE_VIEW', { page: 'HOME' });
   }, []);
 
