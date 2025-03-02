@@ -7,6 +7,7 @@ import { useAstrologyData } from '@/context/AstrologyContext';
 import FullInsights from '@/components/insights/FullInsights';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/common/Button';
+import { logEvent } from '@/lib/amplitude';
 
 async function verifyPayment(sessionId) {
   try {
@@ -14,6 +15,10 @@ async function verifyPayment(sessionId) {
 
     if (!response.ok) {
       const errorData = await response.json();
+      logEvent('CHECKOUT_FAILED', {
+        error: errorData.message || 'Payment verification failed',
+        action: 'checkout',
+      });
       throw new Error(errorData.message || 'Payment verification failed');
     }
 
@@ -61,8 +66,10 @@ export default function InsightPage() {
 
       const fullReport = await getFullAstrologyReport(userData);
       setReport(fullReport);
-
       updateUserData({ hasPaid: true });
+      logEvent('CHECKOUT_SUCCESS', {
+        action: 'checkout',
+      });
     } catch (error) {
       setStatus({
         loading: false,
@@ -91,7 +98,7 @@ export default function InsightPage() {
         Back Home
       </Button>
 
-      <div className="flex min-h-dvh items-center justify-center">
+      <div className="flex min-h-dvh justify-center">
         <div className="container rounded-lg border border-green-200 bg-white p-3 shadow-md">
           <div className="mb-8">
             <div className="h-1 w-full overflow-hidden rounded-full bg-purple-300">

@@ -7,22 +7,20 @@ import { useAstrologyData } from "@/context/AstrologyContext";
 import { logEvent } from "@/lib/amplitude";
 
 export const OnboardingForm1 = () => {
-  const { userData, updateUserData } = useAstrologyData();
-
+  const { userData, updateUserData, currentStep } = useAstrologyData();
   const [formData, setFormData] = useState({
     birthDate: userData.birthDate || "",
     birthLocation: userData.birthLocation || "",
   });
-
   const [errors, setErrors] = useState({});
 
-  const handleDateChange = (e) => {
+  const handleDateChange = React.useCallback((e) => {
     setFormData((prev) => ({ ...prev, birthDate: e.target.value }));
-  };
+  }, []);
 
-  const handleLocationChange = (location) => {
+  const handleLocationChange = React.useCallback((location) => {
     setFormData((prev) => ({ ...prev, birthLocation: location }));
-  };
+  }, []);
 
   const validateForm = () => {
     const newErrors = {};
@@ -39,23 +37,27 @@ export const OnboardingForm1 = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = React.useCallback(
+    (e) => {
+      e.preventDefault();
 
-    logEvent("Onboarding Step 1 Completed", {
-      birthDate: formData.birthDate,
-      birthLocation: formData.birthLocation,
-    });
+      logEvent("Onboarding Step 1 Completed", {
+        birthDate: formData.birthDate,
+        birthLocation: formData.birthLocation,
+      });
 
-    if (validateForm()) {
-      updateUserData({ ...formData, currentStep: 2 });
-    }
-  };
+      if (validateForm()) {
+        updateUserData({ ...formData, currentStep: currentStep + 1 });
+      }
+    },
+    [formData, validateForm, updateUserData]
+  );
 
   const today = new Date().toISOString().split("T")[0];
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+
       <div>
         <label className="block text-sm font-medium mb-1">
           When were you born?

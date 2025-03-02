@@ -1,5 +1,5 @@
 'use client';
-import AstroLayout from '../AstroLayout';
+import AstroLayout from "../AstroLayout";
 
 export default function Page({ children }) {
   return (

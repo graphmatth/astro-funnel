@@ -16,6 +16,7 @@ export function AstrologyProvider({ children }) {
 
     hasPaid: false,
     paymentSessionId: null,
+    hasIphone: false,
   });
 
   const updateUserData = (newData) => {
@@ -24,10 +25,6 @@ export function AstrologyProvider({ children }) {
       return updatedData;
     });
   };
-
-  React.useEffect(() => {
-    setUserData(userData);
-  }, []);
 
   return (
     <AstrologyContext.Provider
@@ -46,7 +43,7 @@ export function useAstrologyData() {
   const context = useContext(AstrologyContext);
   if (context === undefined) {
     throw new Error(
-      "useAstrologyData must be used within an AstrologyProvider",
+      "useAstrologyData must be used within an AstrologyProvider"
     );
   }
   return context;

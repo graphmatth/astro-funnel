@@ -15,9 +15,8 @@ export const OnboardingForm3 = () => {
   const [variant, setVariant] = useState(null);
 
   React.useEffect(() => {
-    const assignedVariant = Math.random() < 0.5 ? "A" : "B";
+    const assignedVariant = Math.random() < 0.5 ? "unlock_insights" : "get_report";
     setVariant(assignedVariant);
-
     logEvent("AB_TEST_VARIANT", { variant: assignedVariant });
   }, []);
 
@@ -41,6 +40,13 @@ export const OnboardingForm3 = () => {
     };
     fetchInsights();
   }, []);
+
+  const handleFormSubmit = () => {
+    logEvent("CHECKOUT_STARTED", {
+      variant: variant,
+      action: "checkout",
+    });
+  };
 
   if (loading) {
     return "Chargement...";
@@ -71,6 +77,7 @@ export const OnboardingForm3 = () => {
           action="/api/checkout_sessions"
           method="POST"
           className="-mt-15 z-10 text-center relative"
+          onSubmit={handleFormSubmit}
         >
           <input
             type="hidden"
@@ -78,17 +85,20 @@ export const OnboardingForm3 = () => {
             value={JSON.stringify(userData)}
           />
           <section>
-            {variant === "A" ? (
-              <button
+            {variant === "unlock_insights" ? (
+              <Button
                 className="bg-purple-700 text-white rounded-xl p-3"
                 type="submit"
               >
                 Unlock Insights for $30.00
-              </button>
+              </Button>
             ) : (
-              <button className="bg-green-500 text-white p-4" type="submit">
+              <Button
+                className="bg-slate-800 text-white rounded-xl p-3"
+                type="submit"
+              >
                 Get Your Full Report Now!
-              </button>
+              </Button>
             )}
           </section>
         </form>

@@ -47,12 +47,12 @@ export const OnboardingForm2 = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    logEvent("Onboarding Step 1 Completed", {
+    logEvent("Onboarding Step 2 Completed", {
       birthTime: formData.birtTime,
     });
 
     if (validateForm()) {
-      updateUserData({ ...formData, currentStep: 3 });
+      updateUserData({ ...formData, currentStep: currentStep + 1 });
     }
   };
 
@@ -62,7 +62,9 @@ export const OnboardingForm2 = () => {
         type="button"
         variant="outline"
         className="my-2"
-        onClick={() => updateUserData({ ...userData, currentStep: 1 })}
+        onClick={() =>
+          updateUserData({ ...userData, currentStep: currentStep - 1 })
+        }
       >
         Back
       </Button>
