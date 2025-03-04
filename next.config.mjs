@@ -1,6 +1,6 @@
-import path from 'path';
+import path from "path";
 
-const __dirname = new URL('.', import.meta.url).pathname;
+const __dirname = new URL(".", import.meta.url).pathname;
 
 const nextConfig = {
   eslint: {
@@ -9,7 +9,7 @@ const nextConfig = {
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': path.resolve(__dirname, 'src'),
+      "@": path.resolve(__dirname, "src"),
     };
 
     return config;

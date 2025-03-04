@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 
 const LocationInput = ({ value, onChange, error }) => {
-  const [query, setQuery] = useState(value || '');
+  const [query, setQuery] = useState(value || "");
   const [suggestions, setSuggestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -23,14 +23,14 @@ const LocationInput = ({ value, onChange, error }) => {
     "Lisbon, Portugal",
     "Dublin, Ireland",
     "Athens, Greece",
-    "Warsaw, Poland"
+    "Warsaw, Poland",
   ];
 
   useEffect(() => {
     // Handle clicks outside the component to close suggestions
     const handleClickOutside = (event) => {
       if (
-        suggestionRef.current && 
+        suggestionRef.current &&
         !suggestionRef.current.contains(event.target) &&
         inputRef.current &&
         !inputRef.current.contains(event.target)
@@ -39,31 +39,30 @@ const LocationInput = ({ value, onChange, error }) => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     setQuery(inputValue);
-    
+
     // Simulate API call with setTimeout
     setIsLoading(true);
     setTimeout(() => {
-      if (inputValue.trim() === '') {
+      if (inputValue.trim() === "") {
         setSuggestions([]);
       } else {
-        const filteredLocations = sampleLocations.filter(location => 
-          location.toLowerCase().includes(inputValue.toLowerCase())
+        const filteredLocations = sampleLocations.filter((location) =>
+          location.toLowerCase().includes(inputValue.toLowerCase()),
         );
         setSuggestions(filteredLocations.slice(0, 5));
       }
       setIsLoading(false);
     }, 300);
-    
-  
+
     onChange(inputValue);
   };
 
@@ -76,7 +75,7 @@ const LocationInput = ({ value, onChange, error }) => {
 
   const handleFocus = () => {
     setIsFocused(true);
-    if (query.trim() !== '') {
+    if (query.trim() !== "") {
       // Show suggestions immediately on focus if there's text
       handleInputChange({ target: { value: query } });
     }
@@ -93,15 +92,16 @@ const LocationInput = ({ value, onChange, error }) => {
         onChange={handleInputChange}
         onFocus={handleFocus}
       />
-    
-      
+
       {isFocused && (suggestions.length > 0 || isLoading) && (
-        <div 
+        <div
           ref={suggestionRef}
           className="absolute z-10 mt-1 w-full bg-white border rounded shadow-lg max-h-60 overflow-y-auto"
         >
           {isLoading ? (
-            <div className="p-2 text-center text-gray-500">Loading suggestions...</div>
+            <div className="p-2 text-center text-gray-500">
+              Loading suggestions...
+            </div>
           ) : (
             suggestions.map((suggestion, index) => (
               <div
