@@ -5,13 +5,13 @@ Astro Funnel is a multi-step form designed to convert users into purchasing thei
 ## Purpose
 
 This project serves as a sandbox to experiment with various technologies and concepts, including:
-	•	Next.js API
-	•	Stripe integration
-	•	React Context
-	•	TanStack Forms (maybe ?)
-	•	UI animations
-	•	Event tracking with Amplitude
-	•	Dashboard insights
-	•	A/B testing
+- Next.js API
+- Stripe integration
+- React Context
+- TanStack Forms (maybe ?)
+- UI animations
+- Event tracking with Amplitude
+- Dashboard insights
+- A/B testing
 
 Nothing serious here, just a fun playground to test and explore different approaches.
